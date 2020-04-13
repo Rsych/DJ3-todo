@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
-from django.contrib.auth import login
-
+from django.contrib.auth import login, logout, authenticate
+def home(request):
+    return render(request, 'todo/home.html')
 # Create your views here.
 def signupuser(request):
     if request.method == 'GET':
@@ -23,5 +24,19 @@ def signupuser(request):
         #pass not match
             return render(request, 'todo/signupuser.html', {'form':UserCreationForm(), 'error':'Passwords did not match!'})
         
+
+def loginuser(request):
+    if request.method == 'GET':
+        return render(request, 'todo/loginuser.html', {'form':AuthenticationForm()})
+    else:
+        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+        if user is None:
+            return render(request, 'todo/loginuser.html', {'form':AuthenticationForm(), 'error':'Username and passwords do not match'})
+
+def logoutuser(request):
+    if request.method == 'POST':
+        logout(request)
+        return redirect('home')
+    
 def currenttodos(request):
     return render(request, 'todo/currenttodos.html')
