@@ -9,6 +9,7 @@ class Todo(models.Model):
     datecompleted = models.DateTimeField(null=True) #when it was finished
     importance = models.BooleanField(default=False) #checkbox  importance of todo
     user = models.ForeignKey(User, on_delete=models.CASCADE) #stores relationship with user(user id)
-
-
+    
+    def __str__(self):
+        return self.title
 
