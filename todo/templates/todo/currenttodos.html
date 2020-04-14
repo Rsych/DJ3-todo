@@ -7,8 +7,10 @@ current
 <ul>
 {% for todo in todos %}
     <li>
+        <a href="{% url 'viewtodo' todo.id %}">
         {% if todo.importance %}<b>{% endif %}{{ todo.title }}{% if todo.importance %}</b>{% endif %}
         {% if todo.memo %} - {{ todo.memo }}{% endif %}
+        </a>
     </li>
 {% endfor %}
 </ul>
